@@ -1,7 +1,7 @@
 using Spectre.Console;
 using System.Threading.Tasks;
 using System;
-
+using System.Threading;
 
 namespace TakedownOS
 {
@@ -53,17 +53,17 @@ namespace TakedownOS
             Loop();
         }
 
-        public static void Loop()
+public static void Loop()
+{
+    while (true)
+    {
+        AnsiConsole.Markup("[grey]TakedownOS" + Utils.currentPath + ">[/] ");
+        string? input = Console.ReadLine();
+        if (input != null)
         {
-            while (true)
-            {
-                AnsiConsole.Markup("[grey]TakedownOS>[/] ");
-                string? input = Console.ReadLine();
-                if (input != null)
-                {
-                    Commander.CheckCommands(input);
-                }
-            }
+            Commander.CheckCommands(input);
         }
+    }
+}
     }
 }
