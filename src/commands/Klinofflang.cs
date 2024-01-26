@@ -11,13 +11,16 @@ namespace TakedownOS.Commands
 {
     public class Klinofflang
     {
-        public static void RunKlinoff(string arg) {
-            if (arg == "help") {
-                AnsiConsole.MarkupLine("[green]Klinofflang is a programming language that is based on the Klinoff language.[/]");
-                AnsiConsole.MarkupLine("It is a very simple language, and is not meant to be used for anything serious.");
-            }
+        public static void RunKlinoff(string file) {
+            // get the path where command is executed
+            string path = Utils.klinoffInterpiterPath + "\\klinoff Interpeter\\interpret.py";
 
+            // check if file exists
+            if (Start.IfFileNotExists(file)) return;
+            file = Start.GetFullAbsoluteCurrentPath() + file;
 
+            CustomConsoleCommand.RunCommand(new string[] { "d", "python3 \"" + path + "\" \"" + file + "\"" });
+    
         }
     }
 }

@@ -37,7 +37,7 @@ namespace TakedownOS
                     Commands.Exit.ExitOS();
                     break;
                 case "klinofflang":
-                    if (args.Length == 0) {
+                    if (args.Length == 1) {
                         Commands.Help.ShowHelp("klinofflang");;
                         return;
                     }

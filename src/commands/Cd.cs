@@ -20,7 +20,7 @@ namespace TakedownOS.Commands
                 // remove last item from array and set as current path
                 Utils.isolatedCurrentPath = Utils.isolatedCurrentPath.Take(Utils.isolatedCurrentPath.Count() - 1).ToArray();
                 // set current directory to the array but without the first item
-                Environment.CurrentDirectory = Utils.AbsolutePathToRoot + "\\" + string.Join("\\", Utils.isolatedCurrentPath.Skip(1).ToArray());
+                Environment.CurrentDirectory = Utils.absolutePathToRoot + "\\" + string.Join("\\", Utils.isolatedCurrentPath.Skip(1).ToArray());
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace TakedownOS.Commands
 
             if (path == "/" || path == "\\")
             {
-                Environment.CurrentDirectory = Utils.AbsolutePathToRoot;
+                Environment.CurrentDirectory = Utils.absolutePathToRoot;
                 Utils.isolatedCurrentPath = new string[] { Utils.isolatedRoot };
                 return;
             }

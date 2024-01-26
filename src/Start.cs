@@ -53,10 +53,34 @@ namespace TakedownOS
                 Environment.Exit(1);
             }
 
+            // if has more than 1 arg
+            if (args.Length == 2)
+            {
+                if (args[1] == "-exe")
+                {
+                    // path to executable
+                    Utils.klinoffInterpiterPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                }
+                else if (args[1] == "-run")
+                {
+                    // path to executable
+                    Utils.klinoffInterpiterPath = Directory.GetCurrentDirectory();
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[red]Error: second argument must be -exe or -run![/]");
+                    AnsiConsole.MarkupLine("[red]-exe: klinoff Interpiter in the exe folder, if running from exe[/]");
+                    AnsiConsole.MarkupLine("[red]-run: klinoff Interpiter in the root folder, if running from source[/]");
+                    Environment.Exit(1);
+                }
+            }
+
+            AnsiConsole.MarkupLine("[green]klinoff path set to " + Utils.klinoffInterpiterPath + "[/]");
+
             // in cmd goto to folder
             Directory.SetCurrentDirectory(args[0]);
             // get absolute path
-            Utils.AbsolutePathToRoot = Directory.GetCurrentDirectory();
+            Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
         }
         public static void Run(string[] args)
         {
@@ -96,7 +120,7 @@ namespace TakedownOS
 
         public static string GetFullAbsoluteCurrentPath() // returns full absolute path
         {
-            return Utils.AbsolutePathToRoot + "\\" + GetIsolatedCurrentPathWithoutRootDir();
+            return Utils.absolutePathToRoot + "\\" + GetIsolatedCurrentPathWithoutRootDir();
         }
 
         public static string GetIsolatedCurrentPath() // returns isolated path
