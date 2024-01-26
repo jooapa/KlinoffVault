@@ -11,12 +11,19 @@ namespace TakedownOS.Commands
 {
     public class Ls
     {
-        public static void ListFiles()
+        public static void ListContent()
         {
             string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
+            string[] folders = Directory.GetDirectories(Directory.GetCurrentDirectory());
             foreach (string file in files)
             {
-                AnsiConsole.MarkupLine(file);
+                string fileName = Path.GetFileName(file);
+                AnsiConsole.MarkupLine("[green]" + fileName + "[/]");
+            }
+            foreach (string folder in folders)
+            {
+                string folderName = Path.GetFileName(folder);
+                AnsiConsole.MarkupLine("[blue]" + folderName + "[/]");
             }
         }
     }

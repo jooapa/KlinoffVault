@@ -15,5 +15,20 @@ namespace TakedownOS
         {
             
         }
+
+        public static void DeleteFolder()
+        {
+            
+        }
+
+        public static void encryptFolder()
+        {
+            
+        }
+
+        public static void decryptFolder()
+        {
+            
+        }
     }
 }

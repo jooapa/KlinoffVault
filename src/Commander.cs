@@ -16,7 +16,7 @@ namespace TakedownOS
             switch (cmd)
             {
                 case "help":
-                    Commands.Help.ShowHelp();
+                    Commands.Help.ShowHelp(args);
                     break;
                 case "clear":
                     Commands.Clear.ClearConsole();
@@ -28,10 +28,25 @@ namespace TakedownOS
                     Commands.Klinofflang.RunKlinoff(args);
                     break;
                 case "ls":
-                    Commands.Ls.ListFiles();
+                    Commands.Ls.ListContent();
+                    break;
+                case "cd":
+                    Commands.Cd.ChangeDirectory(args);
+                    break;
+                case "pwd":
+                    Commands.Pwd.ShowPath(args);
+                    break;
+                case "cat":
+                    Commands.Cat.ShowFile(args);
+                    break;
+                case "vim":
+                    Commands.Vim.Run(args);
+                    break;
+                case "touch":
+                    Commands.Touch.CreateFile(args);
                     break;
                 default:
-                    Commands.Error.InvalidCommand(command);
+                    Errors.InvalidCommand(command);
                     break;
             }
         }
