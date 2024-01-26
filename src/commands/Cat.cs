@@ -11,9 +11,9 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(file)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + "\\" + file; // absolute path
+            string path = Start.GetFullAbsoluteCurrentPath() + file;
 
-            if (Start.IfFileExists(file)) return;
+            if (Start.IfFileNotExists(file)) return;
 
             AnsiConsole.MarkupLine(File.ReadAllText(path));
         }

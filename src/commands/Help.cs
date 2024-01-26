@@ -1,5 +1,6 @@
 using Spectre.Console;
-
+using System;
+using System.Collections.Generic;
 
 namespace TakedownOS.Commands
 {
@@ -22,6 +23,13 @@ namespace TakedownOS.Commands
             AnsiConsole.MarkupLine("pwd           Shows the current directory");
             AnsiConsole.MarkupLine("cat           Shows the contents of a file");
             AnsiConsole.MarkupLine("vim           Opens the Vim text editor");
+            AnsiConsole.MarkupLine("touch         Creates a file");
+            AnsiConsole.MarkupLine("rm            Deletes a file");
+            AnsiConsole.MarkupLine("mkdir         Creates a directory");
+            AnsiConsole.MarkupLine("rmdir         Deletes a directory");
+            AnsiConsole.MarkupLine("console       Runs a console app");
+
+
         }
 
         public static void Man(string command)
@@ -29,40 +37,60 @@ namespace TakedownOS.Commands
             switch (command)
             {
                 case "help":
-                    AnsiConsole.MarkupLine("Shows help message");
-                    AnsiConsole.MarkupLine("Usage: help [command]");
+                    Console.WriteLine("Shows help message");
+                    Console.WriteLine("Usage: help [command]");
                     break;
                 case "clear":
-                    AnsiConsole.MarkupLine("Clears the screen");
-                    AnsiConsole.MarkupLine("Usage: clear");
+                    Console.WriteLine("Clears the screen");
+                    Console.WriteLine("Usage: clear");
                     break;
                 case "exit":
-                    AnsiConsole.MarkupLine("Exits the OS");
-                    AnsiConsole.MarkupLine("Usage: exit");
+                    Console.WriteLine("Exits the OS");
+                    Console.WriteLine("Usage: exit");
                     break;
                 case "klinofflang":
-                    AnsiConsole.MarkupLine("Runs the Klinofflang interpreter");
-                    AnsiConsole.MarkupLine("Usage: klinofflang [file]");
+                    Console.WriteLine("Runs the Klinofflang interpreter");
+                    Console.WriteLine("Usage: klinofflang [file]");
                     break;
                 case "ls":
-                    AnsiConsole.MarkupLine("Lists the contents of the current directory");
-                    AnsiConsole.MarkupLine("Usage: ls");
+                    Console.WriteLine("Lists the contents of the current directory");
+                    Console.WriteLine("Usage: ls");
                     break;
                 case "cd":
-                    AnsiConsole.MarkupLine("Changes the current directory");
-                    AnsiConsole.MarkupLine("Usage: cd [directory]");
+                    Console.WriteLine("Changes the current directory");
+                    Console.WriteLine("Usage: cd [directory]");
                     break;
                 case "pwd":
-                    AnsiConsole.MarkupLine("Shows the current directory");
-                    AnsiConsole.MarkupLine("Usage: pwd");
+                    Console.WriteLine("Shows the current directory");
+                    Console.WriteLine("Usage: pwd");
                     break;
                 case "cat":
-                    AnsiConsole.MarkupLine("Shows the contents of a file");
-                    AnsiConsole.MarkupLine("Usage: cat [file]");
+                    Console.WriteLine("Shows the contents of a file");
+                    Console.WriteLine("Usage: cat [file]");
                     break;
                 case "vim":
-                    AnsiConsole.MarkupLine("Opens the Vim text editor");
-                    AnsiConsole.MarkupLine("Usage: vim [file]");
+                    Console.WriteLine("Opens the Vim text editor");
+                    Console.WriteLine("Usage: vim [file]");
+                    break;
+                case "touch":
+                    Console.WriteLine("Creates a file");
+                    Console.WriteLine("Usage: touch [file]");
+                    break;
+                case "rm":
+                    Console.WriteLine("Deletes a file");
+                    Console.WriteLine("Usage: rm [file]");
+                    break;
+                case "mkdir":
+                    Console.WriteLine("Creates a directory");
+                    Console.WriteLine("Usage: mkdir [directory]");
+                    break;
+                case "rmdir":
+                    Console.WriteLine("Deletes a directory");
+                    Console.WriteLine("Usage: rmdir [directory]");
+                    break;
+                case "console":
+                    Console.WriteLine("Runs a console app");
+                    Console.WriteLine("Usage: console [app]");
                     break;
                 default:
                     Errors.InvalidCommand(command);

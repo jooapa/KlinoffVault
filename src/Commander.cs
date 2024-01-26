@@ -9,14 +9,26 @@ namespace TakedownOS
     {
         public static void CheckCommands(string command)
         {      
-            string cmd = getCommand(command);
-            string args = getArgs(command);
-            if (!CheckValidCommand(command)) return;
+            string[] args = command.Split(" ");
+            
+            if (!CheckValidCommand(args[0])) return;
 
-            switch (cmd)
+            // if arg is empty, remove it from array
+            if (args.Length > 1)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(args[i]))
+                    {
+                        Array.Clear(args, i, 1);
+                    }
+                }
+            }
+
+            switch (args[0])
             {
                 case "help":
-                    Commands.Help.ShowHelp(args);
+                    Commands.Help.ShowHelp(args.Length > 1 ? args[1] : "");
                     break;
                 case "clear":
                     Commands.Clear.ClearConsole();
@@ -25,25 +37,77 @@ namespace TakedownOS
                     Commands.Exit.ExitOS();
                     break;
                 case "klinofflang":
-                    Commands.Klinofflang.RunKlinoff(args);
+                    if (args.Length == 0) {
+                        Commands.Help.ShowHelp("klinofflang");;
+                        return;
+                    }
+                    Commands.Klinofflang.RunKlinoff(args[1]);
                     break;
                 case "ls":
                     Commands.Ls.ListContent();
                     break;
                 case "cd":
-                    Commands.Cd.ChangeDirectory(args);
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("cd");
+                        return;
+                    }
+                    Commands.Cd.ChangeDirectory(args[1]);
                     break;
                 case "pwd":
-                    Commands.Pwd.ShowPath(args);
+                    if (args.Length == 1) {
+                        Commands.Pwd.ShowPath("+");
+                        return;
+                    }
+                    Commands.Pwd.ShowPath(args[1]);
                     break;
                 case "cat":
-                    Commands.Cat.ShowFile(args);
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("cat");
+                        return;
+                    }
+                    Commands.Cat.ShowFile(args[1]);
                     break;
                 case "vim":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("vim");
+                        return;
+                    }
                     Commands.Vim.Run(args);
                     break;
                 case "touch":
-                    Commands.Touch.CreateFile(args);
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("touch");
+                        return;
+                    }
+                    Commands.Touch.CreateFile(args[1]);
+                    break;
+                case "console":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("console");
+                        return;
+                    }
+                    Commands.CustomConsoleCommand.RunCommand(args);
+                    break;
+                case "mkdir":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("mkdir");
+                        return;
+                    }
+                    Commands.OSDirectory.CreateDirectory(args[1]);
+                    break;
+                case "rmdir":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("rmdir");
+                        return;
+                    }
+                    Commands.OSDirectory.DeleteDirectory(args[1]);
+                    break;
+                case "rm":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("rm");
+                        return;
+                    }
+                    Commands.Touch.DeleteFile(args[1]);
                     break;
                 default:
                     Errors.InvalidCommand(command);

@@ -70,7 +70,7 @@ namespace TakedownOS
                     .LeftJustified()
                     .Color(Color.SeaGreen1));
             AnsiConsole.MarkupLine("[white]Copyright (C) klinoff-team. All rights reserved.[/]");
-            AnsiConsole.MarkupLine("[white]TakedownOS isolated Operating System[/]");
+            AnsiConsole.MarkupLine("[white]TakedownOS isolated Operating System[/]\n");
 
             // AnsiConsole.MarkupLine("[green]Root path set to " + args[0] + "[/]");
             Loop();
@@ -119,12 +119,12 @@ namespace TakedownOS
             return currentPath;
         }
 
-        public static bool IfFileExists(string file)
+        public static bool IfFileNotExists(string file)
         {
-            string path = GetFullAbsoluteCurrentPath() + "\\" + file;
+            string path = GetFullAbsoluteCurrentPath()  + file;
             if (File.Exists(path) == false)
             {
-                Errors.FileDoesntExist(path);
+                Errors.FileDoesntExist(GetIsolatedCurrentPath() + file);
                 return true;
             }
             return false;

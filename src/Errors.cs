@@ -38,5 +38,10 @@ namespace TakedownOS
         {
             AnsiConsole.MarkupLine($"[red]Error: File '{path}' already exists![/]");
         }
+
+        public static void DirectoryAlreadyExists(string path)
+        {
+            AnsiConsole.MarkupLine($"[red]Error: Directory '{path}' already exists![/]");
+        }
     }
 }
