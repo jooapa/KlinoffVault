@@ -64,7 +64,7 @@ namespace TakedownOS
                 byte[] encryptedPassword = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
                 string encryptedPasswordString = Convert.ToBase64String(encryptedPassword);
 
-                AnsiConsole.MarkupLine("[green]password: " + encryptedPasswordString + "[/]");
+                // AnsiConsole.MarkupLine("[green]password: " + encryptedPasswordString + "[/]");
                 // decrypt zip file
                 Commands.Zip.UnzipFolder(encryptedPasswordString, args[0]);
                 Directory.SetCurrentDirectory(args[0].Replace(".tdos", ""));
