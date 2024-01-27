@@ -42,7 +42,7 @@ namespace TakedownOS
         {
             if (args.Length == 0)
             {
-                AnsiConsole.MarkupLine("[red]Error: iso file detected![/]");
+                AnsiConsole.MarkupLine("[red]Error: no file detected![/]");
                 Environment.Exit(1);
             }
 
@@ -61,10 +61,11 @@ namespace TakedownOS
                     new TextPrompt<string>("Enter" + args[0] + " password:")
                         // .Secret()
                 );
-
+                byte[] encryptedPassword = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
+                string encryptedPasswordString = Convert.ToBase64String(encryptedPassword);
                 // decrypt zip file
-                Commands.Zip.UnzipFolder(password, args[0]);
-                Directory.SetCurrentDirectory(args[0].Replace(".zip", ""));
+                Commands.Zip.UnzipFolder(encryptedPasswordString, args[0]);
+                Directory.SetCurrentDirectory(args[0].Replace(".tdos", ""));
             }
             // if first arg is folder
             else if (Directory.Exists(args[0]))
@@ -73,7 +74,7 @@ namespace TakedownOS
             }
             else
             {
-                AnsiConsole.MarkupLine("[red]Error: iso file detected![/]");
+                AnsiConsole.MarkupLine("[red]Error: no file detected![/]");
                 Environment.Exit(1);
             }
 
@@ -148,7 +149,7 @@ namespace TakedownOS
 
         public static bool IsTDOSFile(string file)
         {
-            if (file.EndsWith(".zip") == false)
+            if (file.EndsWith(".tdos") == false)
             {
                 return false;
             }

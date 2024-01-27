@@ -6,6 +6,94 @@ using Spectre.Console;
 
 
 class Crypt {
+
+    private const int Iterations = 10000;
+    private const int KeySize = 256;
+
+    public static void EncryptFile(string inputFile, string outputFile, string password)
+    {
+        try {
+            using (AesManaged aesAlg = new AesManaged())
+            {
+                byte[] salt = GenerateRandomSalt();
+
+                using (Rfc2898DeriveBytes keyDerivationFunction = new Rfc2898DeriveBytes(password, salt, Iterations))
+                {
+                    aesAlg.Key = keyDerivationFunction.GetBytes(KeySize / 8);
+                    aesAlg.IV = keyDerivationFunction.GetBytes(aesAlg.BlockSize / 8);
+                }
+
+                using (FileStream fsInput = new FileStream(inputFile, FileMode.Open))
+                using (FileStream fsOutput = new FileStream(outputFile, FileMode.Create))
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(fsOutput, aesAlg.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        fsOutput.Write(salt, 0, salt.Length);
+
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+
+                        while ((bytesRead = fsInput.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            csEncrypt.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+            }
+        } catch (Exception exp) {
+            AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
+            Environment.Exit(1);
+        }
+    }
+
+    public static void DecryptFile(string inputFile, string outputFile, string password)
+    {
+        try {
+            using (AesManaged aesAlg = new AesManaged())
+            {
+                using (FileStream fsInput = new FileStream(inputFile, FileMode.Open))
+                using (FileStream fsOutput = new FileStream(outputFile, FileMode.Create))
+                {
+                    byte[] salt = new byte[16];
+                    fsInput.Read(salt, 0, salt.Length);
+
+                    using (Rfc2898DeriveBytes keyDerivationFunction = new Rfc2898DeriveBytes(password, salt, Iterations))
+                    {
+                        aesAlg.Key = keyDerivationFunction.GetBytes(KeySize / 8);
+                        aesAlg.IV = keyDerivationFunction.GetBytes(aesAlg.BlockSize / 8);
+                    }
+
+                    using (CryptoStream csDecrypt = new CryptoStream(fsOutput, aesAlg.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+
+                        while ((bytesRead = fsInput.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            csDecrypt.Write(buffer, 0, bytesRead);
+                        }
+                    }
+                }
+            }
+        } catch (Exception exp) {
+            if (exp.Message == "Padding is invalid and cannot be removed.") {
+                AnsiConsole.MarkupLine("[red]Error: Password incorrect![/]");
+                Environment.Exit(1);
+            }
+            AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
+            Environment.Exit(1);
+        }
+    }
+
+    private static byte[] GenerateRandomSalt()
+    {
+        byte[] salt = new byte[16];
+        using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+        {
+            rngCsp.GetBytes(salt);
+        }
+        return salt;
+    }
     public static void TestCommand() {
         // Encrypt the string to an array of bytes.
         byte[] encrypted = EncryptString("Hello World!", GetIVandKey("password").Item1, GetIVandKey("password").Item2);
@@ -28,21 +116,6 @@ class Crypt {
         byte[] decrypted = Decrypt(Convert.FromBase64String(encrypted), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
         // Display the original data and the decrypted data.
         return Encoding.UTF8.GetString(decrypted);
-    }
-
-    public static void EncryptFile(string filePath, string password) {
-        // Encrypt the string to an array of bytes.
-        byte[] encrypted = Encrypt(File.ReadAllBytes(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
-        // Display the original data and the decrypted data.
-        File.WriteAllBytes(filePath, encrypted);
-    }
-
-    public static void DecryptFile(string filePath, string password) {
-        // Decrypt the bytes to a string.
-        AnsiConsole.MarkupLine($"[red]Warning: {filePath} will be decrypted![/]");
-        byte[] decrypted = Decrypt(File.ReadAllBytes(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
-        // Display the original data and the decrypted data.
-        File.WriteAllBytes(filePath, decrypted);
     }
 
     public static byte[] EncryptString(string plainText, byte[] Key, byte[] IV) {
@@ -109,4 +182,4 @@ class Crypt {
             return (key, iv);
         }
     }
-    }
+}

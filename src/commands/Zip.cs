@@ -18,36 +18,52 @@ namespace TakedownOS.Commands
             string zipFilePath = Path.Combine(parentFolderPath, systemName + ".zip");
             
             ZipFile.CreateFromDirectory(folderPath, zipFilePath);
+
+            string encryptedZipFilePath = Path.Combine(parentFolderPath, systemName + ".tdos");
+
             // encrypt zip file
-            EncyptZipFile(zipFilePath, password);
+            Crypt.EncryptFile(zipFilePath, encryptedZipFilePath, password);
+            // delete zip file
+            File.Delete(zipFilePath);
+            RmRfFolder(folderPath);
+        }
+
+        public static void RmRfFolder(string folderPath)
+        {
+            DirectoryInfo directory = new DirectoryInfo(folderPath);
+
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+            {
+                subDirectory.Delete(true);
+            }
         }
 
         public static void UnzipFolder(string password, string foldername)
         {
-            string folderPath = Directory.GetCurrentDirectory();
+            string currentPath = Directory.GetCurrentDirectory();
             string parentFolderPath = Directory.GetCurrentDirectory();
             // get folder name using .net
             foldername = Path.GetFileName(foldername);
             string zipFilePath = Path.Combine(parentFolderPath, foldername);
 
-            foldername = foldername.Replace(".zip", "");
-            string incomingFolderName = Path.Combine(folderPath, foldername);
+            string incomingFolderName = Path.Combine(currentPath, foldername.Replace(".tdos", ".zip"));
+            string folderPath = Path.Combine(currentPath, foldername.Replace(".tdos", ""));
             // decrypt zip file
-            DecryptZipFile(zipFilePath, password);
+            Crypt.DecryptFile(zipFilePath, incomingFolderName, password);
+
+            AnsiConsole.MarkupLine("[green]Password correct![/]");
             // unzip file
-            ZipFile.ExtractToDirectory(zipFilePath, incomingFolderName);
+            AnsiConsole.MarkupLine("[green]Unzipping from " + incomingFolderName + " to " + folderPath + "[/]");
+            ZipFile.ExtractToDirectory(incomingFolderName, folderPath);
             // delete zip file
-            File.Delete(zipFilePath);
+            File.Delete(incomingFolderName);
+            File.Delete(foldername);
         }
 
-        public static void EncyptZipFile(string zipFilePath, string password)
-        {
-            Crypt.EncryptFile(zipFilePath, password);
-        }
-
-        public static void DecryptZipFile(string zipFilePath, string password)
-        {
-            Crypt.DecryptFile(zipFilePath, password);
-        }
     }
 }
