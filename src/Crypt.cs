@@ -8,7 +8,7 @@ using Spectre.Console;
 class Crypt {
     public static void TestCommand() {
         // Encrypt the string to an array of bytes.
-        byte[] encrypted = Encrypt("Hello World!", GetIVandKey("password").Item1, GetIVandKey("password").Item2);
+        byte[] encrypted = EncryptString("Hello World!", GetIVandKey("password").Item1, GetIVandKey("password").Item2);
         // Decrypt the bytes to a string.
         byte[] decrypted = Decrypt(encrypted, GetIVandKey("password").Item1, GetIVandKey("password").Item2);
         // Display the original data and the decrypted data.
@@ -18,7 +18,7 @@ class Crypt {
 
     public static string TestEncrypt(string plainText, string password) {
         // Encrypt the string to an array of bytes.
-        byte[] encrypted = Encrypt(plainText, GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        byte[] encrypted = EncryptString(plainText, GetIVandKey(password).Item1, GetIVandKey(password).Item2);
         // Display the original data and the decrypted data.
         return Convert.ToBase64String(encrypted);
     }
@@ -32,19 +32,20 @@ class Crypt {
 
     public static void EncryptFile(string filePath, string password) {
         // Encrypt the string to an array of bytes.
-        byte[] encrypted = Encrypt(File.ReadAllText(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        byte[] encrypted = Encrypt(File.ReadAllBytes(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
         // Display the original data and the decrypted data.
         File.WriteAllBytes(filePath, encrypted);
     }
 
     public static void DecryptFile(string filePath, string password) {
         // Decrypt the bytes to a string.
+        AnsiConsole.MarkupLine($"[red]Warning: {filePath} will be decrypted![/]");
         byte[] decrypted = Decrypt(File.ReadAllBytes(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
         // Display the original data and the decrypted data.
         File.WriteAllBytes(filePath, decrypted);
     }
 
-    public static byte[] Encrypt(string plainText, byte[] Key, byte[] IV) {
+    public static byte[] EncryptString(string plainText, byte[] Key, byte[] IV) {
         byte[] encrypted;
         using(Aes aes = Aes.Create()) {
             aes.Padding = PaddingMode.PKCS7;
@@ -61,6 +62,21 @@ class Crypt {
         return encrypted;
     }
 
+    public static byte[] Encrypt(byte[] plainText, byte[] Key, byte[] IV) {
+        byte[] encrypted;
+        using(Aes aes = Aes.Create()) {
+            aes.Padding = PaddingMode.PKCS7;
+            ICryptoTransform encryptor = aes.CreateEncryptor(Key, IV);
+            using(MemoryStream ms = new MemoryStream()) {
+                using(CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
+                    cs.Write(plainText, 0, plainText.Length);
+                }
+                encrypted = ms.ToArray();
+                ms.Flush();
+            }
+        }
+        return encrypted;
+    }
     public static byte[] Decrypt(byte[] cipherText, byte[] Key, byte[] IV) {
         try {
             byte[] decrypted;

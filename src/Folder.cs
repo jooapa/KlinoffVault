@@ -58,7 +58,7 @@ namespace TakedownOS
                     .Secret()
             );
             
-            byte[] encrypted = Crypt.Encrypt(name, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
+            byte[] encrypted = Crypt.EncryptString(name, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
             string encryptedString = Convert.ToBase64String(encrypted);
 
             string iniContent = $"{name}\n{encryptedString}";
