@@ -28,7 +28,10 @@ namespace TakedownOS.Commands
             AnsiConsole.MarkupLine("mkdir         Creates a directory");
             AnsiConsole.MarkupLine("rmdir         Deletes a directory");
             AnsiConsole.MarkupLine("console       Runs a console app");
-
+            AnsiConsole.MarkupLine("change        Change password");
+            AnsiConsole.MarkupLine("hide          Hide folder");
+            AnsiConsole.MarkupLine("crypt         Encrypt Text");
+            AnsiConsole.MarkupLine("decrypt       Decrypt Text");
 
         }
 
@@ -91,6 +94,22 @@ namespace TakedownOS.Commands
                 case "console":
                     Console.WriteLine("Runs a console app");
                     Console.WriteLine("Usage: console [app]");
+                    break;
+                case "change":
+                    Console.WriteLine("Change password");
+                    Console.WriteLine("Usage: change");
+                    break;
+                case "hide":
+                    Console.WriteLine("Hide folder");
+                    Console.WriteLine("Usage: hide");
+                    break;
+                case "crypt":
+                    Console.WriteLine("Encrypt Text");
+                    Console.WriteLine("Usage: crypt [text] [password]");
+                    break;
+                case "decrypt":
+                    Console.WriteLine("Decrypt Text");
+                    Console.WriteLine("Usage: decrypt [text] [password]");
                     break;
                 default:
                     Errors.InvalidCommand(command);

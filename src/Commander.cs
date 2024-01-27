@@ -112,6 +112,9 @@ namespace TakedownOS
                 case "user":
                     Folder.CreateEncryptedIni();
                     break;
+                case "change":
+                    Commands.ChangePassword.ChangeIt();
+                    break;
                 case "hide":
                     Commands.Zip.ZipFolder();
                     break;
@@ -132,20 +135,6 @@ namespace TakedownOS
                     }
                     AnsiConsole.WriteLine(Crypt.TestDecrypt(args[1], args[2]));
                     break;
-                // case "fileCrypt":
-                //     if (args.Length == 1) {
-                //         Commands.Help.ShowHelp("fileCrypt");
-                //         return;
-                //     }
-                //     Crypt.EncryptFile(args[1], args[2]);
-                //     break;
-                // case "fileDecrypt":
-                //     if (args.Length == 1) {
-                //         Commands.Help.ShowHelp("fileDecrypt");
-                //         return;
-                //     }
-                //     Crypt.DecryptFile(args[1], args[2]);
-                //     break;
                 default:
                     Errors.InvalidCommand(command);
                     break;
