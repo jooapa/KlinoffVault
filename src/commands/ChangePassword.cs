@@ -14,14 +14,14 @@ namespace TakedownOS.Commands
         {
             File.Delete("takedown.ini");
 
-            Folder.CreateEncryptedIni();
+            (string systemName, string password) = Folder.CreateEncryptedIni();
 
             string parentFolderPath = Directory.GetParent(Utils.absolutePathToRoot).FullName;
             Directory.SetCurrentDirectory(parentFolderPath);
-            (string systemName, string password) = Folder.GetIniData();
+
             // rename folder to sysname
             string folderPath = Utils.absolutePathToRoot;
-            string newFolderPath = Path.Combine(parentFolderPath);
+            string newFolderPath = Path.Combine(parentFolderPath, systemName);
 
             AnsiConsole.MarkupLine("from: " + folderPath + " to: " + newFolderPath);
 
@@ -35,6 +35,10 @@ namespace TakedownOS.Commands
                 // You can choose to throw an exception, display an error message, or take any other appropriate action
                 Console.WriteLine("Destination directory already exists.");
             }
+
+            // change directory to new folder
+            Directory.SetCurrentDirectory(newFolderPath);
+            Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
         }
     }
 }

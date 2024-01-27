@@ -18,6 +18,7 @@ namespace TakedownOS.Commands
             foreach (string file in files)
             {
                 string fileName = Path.GetFileName(file);
+                if (fileName == "takedown.ini") continue;
                 AnsiConsole.MarkupLine("[green]" + fileName + "[/]");
             }
             foreach (string folder in folders)

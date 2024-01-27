@@ -45,9 +45,9 @@ namespace TakedownOS
             return false;
         }
 
-        public static void CreateEncryptedIni()
+        public static (string, string) CreateEncryptedIni()
         {
-            if (CheckIfIniFileExists() == true) return;
+            if (CheckIfIniFileExists() == true) return ("", "");
             
             string name = AnsiConsole.Prompt(
                 new TextPrompt<string>("Enter System name:")
@@ -64,7 +64,9 @@ namespace TakedownOS
             string iniContent = $"{name}\n{encryptedString}";
             File.WriteAllText("takedown.ini", iniContent);
 
+            return (name, password);
         }
+
 
         public static (string, string) GetIniData()
         {
