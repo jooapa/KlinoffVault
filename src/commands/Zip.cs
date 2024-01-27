@@ -56,6 +56,8 @@ namespace TakedownOS.Commands
 
             string incomingFolderName = Path.Combine(currentPath, foldername.Replace(".tdos", ".zip"));
             string folderPath = Path.Combine(currentPath, foldername.Replace(".tdos", ""));
+
+            // AnsiConsole.MarkupLine("[green]Decrypting " + foldername + " with: " + password + "[/]");
             // decrypt zip file
             Crypt.DecryptFile(zipFilePath, incomingFolderName, password);
 

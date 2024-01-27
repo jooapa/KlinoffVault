@@ -168,7 +168,7 @@ class Crypt {
             return decrypted;
         } catch (Exception exp) {
             AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
-            return new byte[] { 0x0 };
+            return null;
         }
     }
     private static readonly byte[] saltBytes = new byte[] { 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8 };

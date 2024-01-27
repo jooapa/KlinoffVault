@@ -59,7 +59,7 @@ namespace TakedownOS
                 // ASK for password and key and IV
                 string password = AnsiConsole.Prompt(
                     new TextPrompt<string>("Enter" + args[0] + " password:")
-                        // .Secret()
+                        .Secret()
                 );
                 byte[] encryptedPassword = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
                 string encryptedPasswordString = Convert.ToBase64String(encryptedPassword);
@@ -89,7 +89,7 @@ namespace TakedownOS
                 else if (args[1] == "-run")
                 {
                     // path to executable
-                    Utils.klinoffInterpiterPath = Directory.GetCurrentDirectory();
+                    Utils.klinoffInterpiterPath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace TakedownOS
             }
             else
             {
-                Utils.klinoffInterpiterPath = Directory.GetCurrentDirectory();
+                Utils.klinoffInterpiterPath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
             }
 
             // get absolute path

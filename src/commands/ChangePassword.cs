@@ -12,6 +12,7 @@ namespace TakedownOS.Commands
     {
         public static void ChangeIt()
         {
+            Directory.SetCurrentDirectory(Utils.absolutePathToRoot);
             File.Delete("takedown.ini");
 
             (string systemName, string password) = Folder.CreateEncryptedIni();
@@ -22,8 +23,6 @@ namespace TakedownOS.Commands
             // rename folder to sysname
             string folderPath = Utils.absolutePathToRoot;
             string newFolderPath = Path.Combine(parentFolderPath, systemName);
-
-            AnsiConsole.MarkupLine("from: " + folderPath + " to: " + newFolderPath);
 
             if (!Directory.Exists(newFolderPath))
             {
@@ -39,6 +38,7 @@ namespace TakedownOS.Commands
             // change directory to new folder
             Directory.SetCurrentDirectory(newFolderPath);
             Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
+            Utils.isolatedCurrentPath = new string[] { Utils.isolatedRoot };
         }
     }
 }
