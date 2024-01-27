@@ -37,12 +37,19 @@ namespace TakedownOS
 
             Console.Clear();
         }
-        
+
         public static void Initialize(string[] args)
         {
             if (args.Length == 0)
             {
                 AnsiConsole.MarkupLine("[red]Error: iso file detected![/]");
+                Environment.Exit(1);
+            }
+
+            // if file not exists
+            if (File.Exists(args[0]) == false && Directory.Exists(args[0]) == false)
+            {
+                AnsiConsole.MarkupLine("[red]Error: file not exists![/]");
                 Environment.Exit(1);
             }
 
@@ -57,11 +64,16 @@ namespace TakedownOS
 
                 // decrypt zip file
                 Commands.Zip.UnzipFolder(password, args[0]);
+                Directory.SetCurrentDirectory(args[0].Replace(".zip", ""));
             }
             // if first arg is folder
-            else if (!Directory.Exists(args[0]))
+            else if (Directory.Exists(args[0]))
             {
-                AnsiConsole.MarkupLine("[red]Error: root path doesn't exist![/]");
+                Directory.SetCurrentDirectory(args[0]);
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]Error: iso file detected![/]");
                 Environment.Exit(1);
             }
 
@@ -91,8 +103,6 @@ namespace TakedownOS
                 Utils.klinoffInterpiterPath = Directory.GetCurrentDirectory();
             }
 
-            // in cmd goto to folder
-            Directory.SetCurrentDirectory(args[0]);
             // get absolute path
             Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
             Folder.CreateEncryptedIni();

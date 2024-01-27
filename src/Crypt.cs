@@ -6,38 +6,42 @@ using Spectre.Console;
 
 
 class Crypt {
-    public static (byte[], byte[], byte[]) EncryptAesManaged(string raw) {
-        try {
-            // Create Aes that generates a new key and initialization vector (IV).
-            // Same key must be used in encryption and decryption
-            using(Aes aes = Aes.Create()) {
-                // Encrypt string
-                byte[] encryptedBytes = Encrypt(raw, aes.Key, aes.IV);
-
-                return (encryptedBytes, aes.Key, aes.IV);
-            }
-        } catch (Exception exp) {
-            AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
-        }
-        return (null, null, null);
+    public static void TestCommand() {
+        // Encrypt the string to an array of bytes.
+        byte[] encrypted = Encrypt("Hello World!", GetIVandKey("password").Item1, GetIVandKey("password").Item2);
+        // Decrypt the bytes to a string.
+        byte[] decrypted = Decrypt(encrypted, GetIVandKey("password").Item1, GetIVandKey("password").Item2);
+        // Display the original data and the decrypted data.
+        Console.WriteLine($"Original:   {Encoding.UTF8.GetString(encrypted)}");
+        Console.WriteLine($"Round Trip: {Encoding.UTF8.GetString(decrypted)}");
     }
 
-    public static string DecryptAesManaged(string encrypted, byte[] key, byte[] IV) {
-        try {
-            // Create Aes that generates a new key and initialization vector (IV).
-            // Same key must be used in encryption and decryption
-            using(Aes aes = Aes.Create()) {
-                // Convert encrypted string to byte array
-                byte[] encryptedBytes = Convert.FromBase64String(encrypted);
-                // Decrypt bytes
-                string decrypted = Decrypt(encryptedBytes, key, IV);
+    public static string TestEncrypt(string plainText, string password) {
+        // Encrypt the string to an array of bytes.
+        byte[] encrypted = Encrypt(plainText, GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        // Display the original data and the decrypted data.
+        return Convert.ToBase64String(encrypted);
+    }
 
-                return decrypted;
-            }
-        } catch (Exception exp) {
-            AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
-        }
-        return "";
+    public static string TestDecrypt(string encrypted, string password) {
+        // Decrypt the bytes to a string.
+        byte[] decrypted = Decrypt(Convert.FromBase64String(encrypted), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        // Display the original data and the decrypted data.
+        return Encoding.UTF8.GetString(decrypted);
+    }
+
+    public static void EncryptFile(string filePath, string password) {
+        // Encrypt the string to an array of bytes.
+        byte[] encrypted = Encrypt(File.ReadAllText(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        // Display the original data and the decrypted data.
+        File.WriteAllBytes(filePath, encrypted);
+    }
+
+    public static void DecryptFile(string filePath, string password) {
+        // Decrypt the bytes to a string.
+        byte[] decrypted = Decrypt(File.ReadAllBytes(filePath), GetIVandKey(password).Item1, GetIVandKey(password).Item2);
+        // Display the original data and the decrypted data.
+        File.WriteAllBytes(filePath, decrypted);
     }
 
     public static byte[] Encrypt(string plainText, byte[] Key, byte[] IV) {
@@ -57,32 +61,36 @@ class Crypt {
         return encrypted;
     }
 
-    public static string Decrypt(byte[] cipherText, byte[] Key, byte[] IV) {
+    public static byte[] Decrypt(byte[] cipherText, byte[] Key, byte[] IV) {
         try {
+            byte[] decrypted;
             using (Aes aes = Aes.Create()) {
                 aes.Padding = PaddingMode.PKCS7;
                 ICryptoTransform decryptor = aes.CreateDecryptor(Key, IV);
                 using (MemoryStream ms = new MemoryStream(cipherText)) {
                     using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read)) {
-                        using (StreamReader reader = new StreamReader(cs))
-                            return reader.ReadToEnd();
+                        using (MemoryStream resultStream = new MemoryStream()) {
+                            cs.CopyTo(resultStream);
+                            decrypted = resultStream.ToArray();
+                        }
                     }
                 }
             }
+            return decrypted;
         } catch (Exception exp) {
-            // Log or handle the exception
-            AnsiConsole.MarkupLine($"[red]Error during decryption: {exp.Message}[/]");
+            AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");
             Environment.Exit(1);
-            return "";
+            return null;
         }
     }
+    private static readonly byte[] saltBytes = new byte[] { 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8 };
+    private const int iterations = 10000;
 
-
-        public static (byte[], byte[]) GetIVandKey(string password)
-        {
-            using(Aes aes = Aes.Create()) {
-                aes.Padding = PaddingMode.PKCS7;
-                return (aes.Key, aes.IV);
-            }
+    public static (byte[], byte[]) GetIVandKey(string password) {
+        using (Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(password, saltBytes, iterations, HashAlgorithmName.SHA256)) {
+            byte[] key = deriveBytes.GetBytes(32); // 256 bits for AES 256
+            byte[] iv = deriveBytes.GetBytes(16);  // 128 bits for AES
+            return (key, iv);
         }
+    }
     }

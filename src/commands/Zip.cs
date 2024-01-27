@@ -30,43 +30,24 @@ namespace TakedownOS.Commands
             foldername = Path.GetFileName(foldername);
             string zipFilePath = Path.Combine(parentFolderPath, foldername);
 
+            foldername = foldername.Replace(".zip", "");
             string incomingFolderName = Path.Combine(folderPath, foldername);
             // decrypt zip file
             DecryptZipFile(zipFilePath, password);
             // unzip file
             ZipFile.ExtractToDirectory(zipFilePath, incomingFolderName);
+            // delete zip file
+            File.Delete(zipFilePath);
         }
+
         public static void EncyptZipFile(string zipFilePath, string password)
         {
-            // read zip file
-            string zipFileBytes = File.ReadAllText(zipFilePath);
-            // KEYS
-            (byte[] keyBytes , byte[] IVBytes) = Crypt.GetIVandKey(password);
-            if (IVBytes.Length != 16)
-            {
-                throw new Exception("Invalid IV size. IV must be 128 bits.");
-            }
-            // encrypt zip file
-            byte[] encryptedZipFileBytes = Crypt.Encrypt(zipFileBytes, keyBytes, IVBytes);
-            // write encrypted zip file
-            File.WriteAllBytes(zipFilePath, encryptedZipFileBytes);
+            Crypt.EncryptFile(zipFilePath, password);
         }
 
         public static void DecryptZipFile(string zipFilePath, string password)
         {
-            // read zip file
-            byte[] encryptedZipFileBytes = File.ReadAllBytes(zipFilePath);
-            // KEYS
-            (byte[] keyBytes , byte[] IVBytes) = Crypt.GetIVandKey(password);
-            if (IVBytes.Length != 16)
-            {
-                throw new Exception("Invalid IV size. IV must be 128 bits.");
-            }
-            AnsiConsole.MarkupLine($"[red]Decrypting {zipFilePath} with {password}[/]");
-            // decrypt zip file
-            string decryptedZipFileBytes = Crypt.Decrypt(encryptedZipFileBytes, keyBytes, IVBytes);
-            // write decrypted zip file
-            File.WriteAllText(zipFilePath, decryptedZipFileBytes);
+            Crypt.DecryptFile(zipFilePath, password);
         }
     }
 }

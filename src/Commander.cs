@@ -115,6 +115,23 @@ namespace TakedownOS
                 case "hide":
                     Commands.Zip.ZipFolder();
                     break;
+                case "test":
+                    Crypt.TestCommand();
+                    break;
+                case "crypt":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("crypt");
+                        return;
+                    }
+                    AnsiConsole.WriteLine(Crypt.TestEncrypt(args[1], args[2]));
+                    break;
+                case "decrypt":
+                    if (args.Length == 1) {
+                        Commands.Help.ShowHelp("decrypt");
+                        return;
+                    }
+                    AnsiConsole.WriteLine(Crypt.TestDecrypt(args[1], args[2]));
+                    break;
                 default:
                     Errors.InvalidCommand(command);
                     break;
