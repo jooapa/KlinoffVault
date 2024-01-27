@@ -30,5 +30,40 @@ namespace TakedownOS
         {
             
         }
+
+        public static bool CheckIfIniFileExists()
+        {
+            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
+            foreach (string file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                if (fileName == "takedown.ini")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static void CreateIniFile()
+        {
+            if (CheckIfIniFileExists() == true) return;
+
+            string password = AnsiConsole.Prompt(
+                new TextPrompt<string>("Enter password: ")
+                    .Secret()
+            );
+            
+            (byte[] encrypted, byte[] key, byte[] IV) = Crypt.EncryptAesManaged(password);
+            string encryptedString = Convert.ToBase64String(encrypted);
+            string keyString = Convert.ToBase64String(key);
+            string IVString = Convert.ToBase64String(IV);
+
+            string iniContent = $"{encryptedString}\n{keyString}\n{IVString}";
+            File.WriteAllText("takedown.ini", iniContent);
+
+        }
+
+
     }
 }

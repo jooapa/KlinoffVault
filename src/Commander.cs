@@ -109,6 +109,13 @@ namespace TakedownOS
                     }
                     Commands.Touch.DeleteFile(args[1]);
                     break;
+                case "changepass":
+                    // if (args.Length == 1) {
+                    //     Commands.Help.ShowHelp("changepass");
+                    //     return;
+                    // }
+                    // Commands.ChangePassword.ChangePass(args[1]);
+                    break;
                 default:
                     Errors.InvalidCommand(command);
                     break;

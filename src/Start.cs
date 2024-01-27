@@ -69,13 +69,15 @@ namespace TakedownOS
                 else
                 {
                     AnsiConsole.MarkupLine("[red]Error: second argument must be -exe or -run![/]");
-                    AnsiConsole.MarkupLine("[red]-exe: klinoff Interpiter in the exe folder, if running from exe[/]");
-                    AnsiConsole.MarkupLine("[red]-run: klinoff Interpiter in the root folder, if running from source[/]");
+                    AnsiConsole.MarkupLine("[red]'-exe' klinoff Interpiter in the exe folder, if running from exe[/]");
+                    AnsiConsole.MarkupLine("[red]'-run' klinoff Interpiter in the root folder, if running from source[/]");
                     Environment.Exit(1);
                 }
             }
-
-            AnsiConsole.MarkupLine("[green]klinoff path set to " + Utils.klinoffInterpiterPath + "[/]");
+            else
+            {
+                Utils.klinoffInterpiterPath = Directory.GetCurrentDirectory();
+            }
 
             // in cmd goto to folder
             Directory.SetCurrentDirectory(args[0]);
