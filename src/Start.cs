@@ -7,7 +7,6 @@ namespace TakedownOS
 {
     public class Start
     {
-
         public static void Load()
         {
         AnsiConsole.Status()
@@ -38,18 +37,31 @@ namespace TakedownOS
 
             Console.Clear();
         }
-
-        public static void CheckArgs(string[] args)
+        
+        public static void Initialize(string[] args)
         {
             if (args.Length == 0)
             {
                 AnsiConsole.MarkupLine("[red]Error: iso file detected![/]");
                 Environment.Exit(1);
             }
-            // if first arg isnt folder
-            if (Directory.Exists(args[0]) == false)
+
+            // if first arg TDOS file
+            if (IsTDOSFile(args[0]))
             {
-                AnsiConsole.MarkupLine("[red]Error: First argument must be a folder![/]");
+                // ASK for password and key and IV
+                string password = AnsiConsole.Prompt(
+                    new TextPrompt<string>("Enter" + args[0] + " password:")
+                        // .Secret()
+                );
+
+                // decrypt zip file
+                Commands.Zip.UnzipFolder(password, args[0]);
+            }
+            // if first arg is folder
+            else if (!Directory.Exists(args[0]))
+            {
+                AnsiConsole.MarkupLine("[red]Error: root path doesn't exist![/]");
                 Environment.Exit(1);
             }
 
@@ -83,10 +95,14 @@ namespace TakedownOS
             Directory.SetCurrentDirectory(args[0]);
             // get absolute path
             Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
+            Folder.CreateEncryptedIni();
         }
         public static void Run(string[] args)
         {
-            CheckArgs(args);
+            Console.Clear();
+            Console.Title = "TakedownOS";
+            AnsiConsole.WriteLine("\n");
+            Initialize(args);
             Console.Clear();
             // load os
             // Load();
@@ -118,6 +134,15 @@ namespace TakedownOS
                     Commander.CheckCommands(input);
                 }
             }
+        }
+
+        public static bool IsTDOSFile(string file)
+        {
+            if (file.EndsWith(".zip") == false)
+            {
+                return false;
+            }
+            return true;
         }
 
         public static string GetFullAbsoluteCurrentPath() // returns full absolute path

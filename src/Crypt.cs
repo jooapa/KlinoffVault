@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using Spectre.Console;
 
 
@@ -28,11 +29,6 @@ class Crypt {
             using(Aes aes = Aes.Create()) {
                 // Convert encrypted string to byte array
                 byte[] encryptedBytes = Convert.FromBase64String(encrypted);
-
-
-                Console.WriteLine("pass: " + BitConverter.ToString(encryptedBytes));
-                Console.WriteLine("Key:  " + BitConverter.ToString(key));
-                Console.WriteLine("IV:   " + BitConverter.ToString(IV));
                 // Decrypt bytes
                 string decrypted = Decrypt(encryptedBytes, key, IV);
 
@@ -55,23 +51,38 @@ class Crypt {
                         sw.Write(plainText);
                 }
                 encrypted = ms.ToArray();
+                ms.Flush();
             }
         }
         return encrypted;
     }
 
-        public static string Decrypt(byte[] cipherText, byte[] Key, byte[] IV) {
-            string plaintext = null;
-            using(Aes aes = Aes.Create()) {
+    public static string Decrypt(byte[] cipherText, byte[] Key, byte[] IV) {
+        try {
+            using (Aes aes = Aes.Create()) {
                 aes.Padding = PaddingMode.PKCS7;
                 ICryptoTransform decryptor = aes.CreateDecryptor(Key, IV);
-                using(MemoryStream ms = new MemoryStream(cipherText)) {
-                    using(CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read)) {
-                        using(StreamReader reader = new StreamReader(cs))
-                            plaintext = reader.ReadToEnd();
+                using (MemoryStream ms = new MemoryStream(cipherText)) {
+                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read)) {
+                        using (StreamReader reader = new StreamReader(cs))
+                            return reader.ReadToEnd();
                     }
                 }
             }
-            return plaintext;
+        } catch (Exception exp) {
+            // Log or handle the exception
+            AnsiConsole.MarkupLine($"[red]Error during decryption: {exp.Message}[/]");
+            Environment.Exit(1);
+            return "";
+        }
+    }
+
+
+        public static (byte[], byte[]) GetIVandKey(string password)
+        {
+            using(Aes aes = Aes.Create()) {
+                aes.Padding = PaddingMode.PKCS7;
+                return (aes.Key, aes.IV);
+            }
         }
     }

@@ -109,12 +109,11 @@ namespace TakedownOS
                     }
                     Commands.Touch.DeleteFile(args[1]);
                     break;
-                case "changepass":
-                    // if (args.Length == 1) {
-                    //     Commands.Help.ShowHelp("changepass");
-                    //     return;
-                    // }
-                    // Commands.ChangePassword.ChangePass(args[1]);
+                case "user":
+                    Folder.CreateEncryptedIni();
+                    break;
+                case "hide":
+                    Commands.Zip.ZipFolder();
                     break;
                 default:
                     Errors.InvalidCommand(command);
