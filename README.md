@@ -29,6 +29,10 @@ Works on Windows, macOS and Linux. Made using .NET 7.0.
 - `touch                 Creates a file`
 - `vim                   Edit a file`
 - `console [command] ..  Runs a console app`
+- `changeuser            Change password`
+- `hide                  Hide folder`
+- `crypt [text] [pass]   Encrypt text`
+- `decrypt [text] [pass] Decrypt text`
 
 ## Usage
 
