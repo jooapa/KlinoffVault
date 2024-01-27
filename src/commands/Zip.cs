@@ -17,10 +17,11 @@ namespace TakedownOS.Commands
             string parentFolderPath = Directory.GetParent(folderPath).FullName;
             string zipFilePath = Path.Combine(parentFolderPath, systemName + ".zip");
             
-            ZipFile.CreateFromDirectory(folderPath, zipFilePath);
+            // ZipFile.CreateFromDirectory(folderPath, zipFilePath);
 
             string encryptedZipFilePath = Path.Combine(parentFolderPath, systemName + ".tdos");
 
+            // AnsiConsole.MarkupLine("[green]Encrypting " + systemName + " with: " + password + "[/]");
             // encrypt zip file
             Crypt.EncryptFile(zipFilePath, encryptedZipFilePath, password);
             // delete zip file
