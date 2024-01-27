@@ -26,6 +26,9 @@ namespace TakedownOS.Commands
             // delete zip file
             File.Delete(zipFilePath);
             RmRfFolder(folderPath);
+            Directory.SetCurrentDirectory(parentFolderPath);
+            Directory.Delete(folderPath);
+            Environment.Exit(0);
         }
 
         public static void RmRfFolder(string folderPath)
