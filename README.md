@@ -39,7 +39,7 @@ This is a very special peace of software, because it has the ability to open any
 
 ## Usage
 
-```c#
+```bash
 dotnet run -- folder
 dotnet run -- file.tdos
 ```
