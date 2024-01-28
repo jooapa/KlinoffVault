@@ -160,7 +160,7 @@ namespace TakedownOS
 
         public static string GetFullAbsoluteCurrentPath() // returns full absolute path
         {
-            return Utils.absolutePathToRoot + "\\" + GetIsolatedCurrentPathWithoutRootDir();
+            return Path.Combine(Utils.absolutePathToRoot, GetIsolatedCurrentPathWithoutRootDir());
         }
 
         public static string GetIsolatedCurrentPath() // returns isolated path
@@ -185,10 +185,10 @@ namespace TakedownOS
 
         public static bool IfFileNotExists(string file)
         {
-            string path = GetFullAbsoluteCurrentPath()  + file;
+            string path = Path.Combine(GetFullAbsoluteCurrentPath(), file);
             if (File.Exists(path) == false)
             {
-                Errors.FileDoesntExist(GetIsolatedCurrentPath() + file);
+                Errors.FileDoesntExist(Path.Combine(GetIsolatedCurrentPath(), file));
                 return true;
             }
             return false;

@@ -14,13 +14,13 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(dir)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + dir;
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), dir);
             if (Directory.Exists(path))
             {
-                Errors.DirectoryAlreadyExists(Start.GetIsolatedCurrentPath() + dir); // isolated path
+                Errors.DirectoryAlreadyExists(Path.Combine(Start.GetIsolatedCurrentPath(), dir)); // isolated path
                 return;
             }
-            AnsiConsole.MarkupLine("[green]Created directory " + Start.GetIsolatedCurrentPath() + dir + "[/]");
+            AnsiConsole.MarkupLine("[green]Created directory " + Path.Combine(Start.GetIsolatedCurrentPath(), dir)+ "[/]");
             Directory.CreateDirectory(path);
         }
 
@@ -28,15 +28,15 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(dir)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + dir;
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), dir);
             if (Directory.Exists(path) == false)
             {
-                Errors.DirectoryDoesntExist(Start.GetIsolatedCurrentPath() + dir); // isolated path
+                Errors.DirectoryDoesntExist(Path.Combine(Start.GetIsolatedCurrentPath(), dir)); // isolated path
                 return;
             }
             try {
                 Directory.Delete(path);
-                AnsiConsole.MarkupLine("[green]Deleted directory " + Start.GetIsolatedCurrentPath() + dir + "[/]");
+                AnsiConsole.MarkupLine("[green]Deleted directory " + Path.Combine(Start.GetIsolatedCurrentPath(), dir) + "[/]");
             } catch (Exception ex) {
                 if (ex.Message.Contains("The directory is not empty")) {
                     AnsiConsole.MarkupLine("[red]Error: Directory is not empty.[/]");

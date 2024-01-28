@@ -11,7 +11,7 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(file)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + file;
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), file);
 
             if (Start.IfFileNotExists(file)) return;
 

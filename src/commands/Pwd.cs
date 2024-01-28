@@ -11,7 +11,7 @@ namespace TakedownOS.Commands
     {
         public static void ShowPath(string args)
         {
-            if (args.Length > 0)
+            if (args.Length > 1)
             {
                 if (args == "+")
                 {
@@ -20,8 +20,12 @@ namespace TakedownOS.Commands
                 }
             }
             // show Utils.currentPath
-            string path = Start.GetIsolatedCurrentPath();
-            AnsiConsole.MarkupLine("[green]" + path + "[/]");
+            // string path = Start.GetIsolatedCurrentPath();
+            // AnsiConsole.MarkupLine("[green]" + path + "[/]");
+
+            AnsiConsole.MarkupLine("Full Absolute Current Path[green]" + Start.GetFullAbsoluteCurrentPath() + "[/]");
+            AnsiConsole.MarkupLine("Isolated Current Path[green]" + Start.GetIsolatedCurrentPath() + "[/]");
+            AnsiConsole.MarkupLine("Current Directory[green]" + Directory.GetCurrentDirectory() + "[/]");
         }
     }
 }

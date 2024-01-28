@@ -12,13 +12,13 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(file)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + file;
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), file);
             if (File.Exists(path))
             {
-                Errors.FileAlreadyExists(Start.GetIsolatedCurrentPath() + file); // isolated path
+                Errors.FileAlreadyExists(Path.Combine(Start.GetIsolatedCurrentPath(),file)); // isolated path
                 return;
             }
-            AnsiConsole.MarkupLine("[green]Created file " + Start.GetIsolatedCurrentPath() + file + "[/]");
+            AnsiConsole.MarkupLine("[green]Created file " + Path.Combine(Start.GetIsolatedCurrentPath(), file) + "[/]");
             File.Create(path);
         }
 
@@ -26,15 +26,15 @@ namespace TakedownOS.Commands
         {
             if (Start.IfArgumentEmpty(file)) return;
 
-            string path = Start.GetFullAbsoluteCurrentPath() + file;
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), file);
             if (File.Exists(path) == false)
             {
-                Errors.FileDoesntExist(Start.GetIsolatedCurrentPath() + file); // isolated path
+                Errors.FileDoesntExist(Path.Combine(Start.GetIsolatedCurrentPath(), file)); // isolated path
                 return;
             }
             try {
                 File.Delete(path);
-                AnsiConsole.MarkupLine("[green]Deleted file " + Start.GetIsolatedCurrentPath() + file + "[/]");
+                AnsiConsole.MarkupLine("[green]Deleted file " + Path.Combine(Start.GetIsolatedCurrentPath(), file) + "[/]");
             } catch (Exception ex) {
                 AnsiConsole.MarkupLine("[red]Error: " + ex.Message + "[/]");
             }

@@ -17,7 +17,7 @@ namespace TakedownOS.Commands
 
             // check if file exists
             if (Start.IfFileNotExists(file)) return;
-            file = Start.GetFullAbsoluteCurrentPath() + file;
+            file = Path.Combine(Start.GetFullAbsoluteCurrentPath(), file);
 
             CustomConsoleCommand.RunCommand(new string[] { "d", "python3 \"" + path + "\" \"" + file + "\"" });
     
