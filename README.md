@@ -13,7 +13,7 @@ Out from the box, KlinoffVault comes with klinoff-lang interpreter, a programmin
 - [x] Secure
 - [x] Fast
 - [x] Easy to use
-- [x] Open source
+- [x] Open source, unlike klinoff-os
 - [x] Lightweight
 - [x] Portable
 
