@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using Spectre.Console;
@@ -46,7 +47,7 @@ class Crypt {
         }
     }
 
-    public static void DecryptFile(string inputFile, string outputFile, string password)
+    public static void DecryptFile(string inputFile, string outputFile, string password, bool isZip = false)
     {
         try {
             using (AesManaged aesAlg = new AesManaged())
@@ -78,6 +79,12 @@ class Crypt {
         } catch (Exception exp) {
             if (exp.Message == "Padding is invalid and cannot be removed.") {
                 AnsiConsole.MarkupLine("[red]Error: Password incorrect![/]");
+                if (isZip) {
+                    // replace .kv with .zip
+                    string zipFilePath = inputFile.Replace(".kv", ".zip");
+                    // delete zip file
+                    File.Delete(zipFilePath);
+                }
                 Environment.Exit(1);
             }
             AnsiConsole.MarkupLine($"[red]Error: {exp.Message}[/]");

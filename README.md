@@ -18,6 +18,7 @@ This is a very special peace of software, because it has the ability to open any
 ## Commands
 
 - `help                   Shows help information about a command`
+- `help [command]         Display more information on a specific command.`
 - `clear                  Clears the screen`
 - `exit                   Exits the shell`
 - `klinofflang [command]  Runs the Klinofflang interpreter`

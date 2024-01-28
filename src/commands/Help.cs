@@ -14,24 +14,25 @@ namespace KlinoffVault.Commands
             }
             
             AnsiConsole.MarkupLine("Commands: ");
-            AnsiConsole.MarkupLine("help          Shows this message");
-            AnsiConsole.MarkupLine("clear         Clears the screen");
-            AnsiConsole.MarkupLine("exit          Exits the OS");
-            AnsiConsole.MarkupLine("klinofflang   Runs the Klinofflang interpreter");
-            AnsiConsole.MarkupLine("ls            Lists the contents of the current directory");
-            AnsiConsole.MarkupLine("cd            Changes the current directory");
-            AnsiConsole.MarkupLine("pwd           Shows the current directory");
-            AnsiConsole.MarkupLine("cat           Shows the contents of a file");
-            AnsiConsole.MarkupLine("vim           Opens the Vim text editor");
-            AnsiConsole.MarkupLine("touch         Creates a file");
-            AnsiConsole.MarkupLine("rm            Deletes a file");
-            AnsiConsole.MarkupLine("mkdir         Creates a directory");
-            AnsiConsole.MarkupLine("rmdir         Deletes a directory");
-            AnsiConsole.MarkupLine("console       Runs a console app");
-            AnsiConsole.MarkupLine("change        Change password");
-            AnsiConsole.MarkupLine("hide          Hide folder");
-            AnsiConsole.MarkupLine("crypt         Encrypt Text");
-            AnsiConsole.MarkupLine("decrypt       Decrypt Text");
+            AnsiConsole.MarkupLine("help           Shows this message");
+            AnsiConsole.MarkupLine("help [command] Display more information on a specific command");
+            AnsiConsole.MarkupLine("clear          Clears the screen");
+            AnsiConsole.MarkupLine("exit           Exits the OS");
+            AnsiConsole.MarkupLine("klinofflang    Runs the Klinofflang interpreter");
+            AnsiConsole.MarkupLine("ls             Lists the contents of the current directory");
+            AnsiConsole.MarkupLine("cd             Changes the current directory");
+            AnsiConsole.MarkupLine("pwd            Shows the current directory");
+            AnsiConsole.MarkupLine("cat            Shows the contents of a file");
+            AnsiConsole.MarkupLine("vim            Opens the Vim text editor");
+            AnsiConsole.MarkupLine("touch          Creates a file");
+            AnsiConsole.MarkupLine("rm             Deletes a file");
+            AnsiConsole.MarkupLine("mkdir          Creates a directory");
+            AnsiConsole.MarkupLine("rmdir          Deletes a directory");
+            AnsiConsole.MarkupLine("console        Runs a console app");
+            AnsiConsole.MarkupLine("change         Change password");
+            AnsiConsole.MarkupLine("hide           Hide folder");
+            AnsiConsole.MarkupLine("crypt          Encrypt Text");
+            AnsiConsole.MarkupLine("decrypt        Decrypt Text");
 
         }
 

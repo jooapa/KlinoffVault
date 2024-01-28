@@ -60,7 +60,7 @@ namespace KlinoffVault.Commands
 
             // AnsiConsole.MarkupLine("[green]Decrypting " + foldername + " with: " + password + "[/]");
             // decrypt zip file
-            Crypt.DecryptFile(zipFilePath, incomingFolderName, password);
+            Crypt.DecryptFile(zipFilePath, incomingFolderName, password, true);
 
             AnsiConsole.MarkupLine("[green]Password correct![/]");
             // unzip file

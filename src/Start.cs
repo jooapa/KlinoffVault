@@ -54,7 +54,7 @@ namespace KlinoffVault
             }
 
             // if first arg TDOS file
-            if (IsTDOSFile(args[0]))
+            if (IsKvFile(args[0]))
             {
                 if (CheckIfDirectoryAlreadyExistsInParent(args[0].Replace(".kv", ""))) {
                     Environment.Exit(1);
@@ -168,7 +168,7 @@ namespace KlinoffVault
             return false;
         }
 
-        public static bool IsTDOSFile(string file)
+        public static bool IsKvFile(string file)
         {
             if (file.EndsWith(".kv") == false)
             {
