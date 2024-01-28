@@ -15,7 +15,7 @@ namespace KlinoffVault.Commands
             
             AnsiConsole.MarkupLine("Commands: ");
             AnsiConsole.MarkupLine("help           Shows this message");
-            AnsiConsole.MarkupLine("help [command] Display more information on a specific command");
+            AnsiConsole.MarkupLine("help <command> Display more information on a specific command");
             AnsiConsole.MarkupLine("clear          Clears the screen");
             AnsiConsole.MarkupLine("exit           Exits the OS");
             AnsiConsole.MarkupLine("klinofflang    Runs the Klinofflang interpreter");

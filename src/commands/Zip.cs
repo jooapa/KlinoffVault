@@ -12,6 +12,11 @@ namespace KlinoffVault.Commands
         public static void ZipFolder()
         {
             (string systemName, string password) = Folder.GetIniData();
+            if (!Folder.CheckIfIniFileExists())
+            {
+                AnsiConsole.MarkupLine("[red]Error: [/]You need to create a system first. Use [green]user[/] to create a system.");
+                return;
+            }
 
             string folderPath = Utils.absolutePathToRoot;
             string parentFolderPath = Directory.GetParent(folderPath).FullName;

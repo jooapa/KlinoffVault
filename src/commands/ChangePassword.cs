@@ -17,12 +17,12 @@ namespace KlinoffVault.Commands
             File.Delete("klinoffvault.ini");
 
             (string systemName, string password) = Folder.SetupCreateEncryptedIni();
-
-            string parentFolderPath = Directory.GetParent(Utils.absolutePathToRoot).FullName;
-            Directory.SetCurrentDirectory(parentFolderPath);
+            Folder.CreateEncryptedIni(systemName, password);
+            // string parentFolderPath = Directory.GetParent(Utils.absolutePathToRoot).FullName;
+            // Directory.SetCurrentDirectory(parentFolderPath);
 
             // change directory to new folder
-            Directory.SetCurrentDirectory(systemName);
+            // Directory.SetCurrentDirectory(Utils.absolutePathToRoot);
             Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
             Utils.isolatedCurrentPath = new string[] { Utils.isolatedRoot };
         }

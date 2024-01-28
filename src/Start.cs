@@ -14,7 +14,7 @@ namespace KlinoffVault
             {
                 // Simulate some work
                 AnsiConsole.MarkupLine("Calibrating Multidimensional Coordinates...");
-                Thread.Sleep(1000);
+                Thread.Sleep(200);
 
                 // Update the status and spinner
                 ctx.Status("Activating Neural Synapses");
@@ -23,7 +23,7 @@ namespace KlinoffVault
 
                 // Simulate some work
                 AnsiConsole.MarkupLine("Optimizing Code with Quantum Superposition...");
-                Thread.Sleep(2000);
+                Thread.Sleep(600);
 
                 // Update the status and spinner
                 ctx.Status("Initializing Quantum Entanglement Driver");
@@ -125,7 +125,7 @@ namespace KlinoffVault
             Initialize(args);
             Console.Clear();
             // load os
-            // Load();
+            Load();
 
             AnsiConsole.Write(
                 new FigletText("KlinoffVault")

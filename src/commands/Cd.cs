@@ -55,7 +55,7 @@ namespace KlinoffVault.Commands
             foreach (string directory in directories)
             {
                 // relative path
-                if (directory == Environment.CurrentDirectory + "\\" + path)
+                if (directory == Path.Combine(Environment.CurrentDirectory, path))
                 {
                     return true;
                 }

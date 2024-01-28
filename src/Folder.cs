@@ -33,7 +33,7 @@ namespace KlinoffVault
 
         public static bool CheckIfIniFileExists()
         {
-            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory());
+            string[] files = Directory.GetFiles(Utils.absolutePathToRoot);
             foreach (string file in files)
             {
                 string fileName = Path.GetFileName(file);
