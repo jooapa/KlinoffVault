@@ -6,6 +6,8 @@ Works on Windows, macOS and Linux. Made using .NET 7.0.
 Now it might seem that this is just another Operating System, but no.. nononno
 This is a very special peace of software, because it has the ability to open any folder as a operating system and encrypt it with a password. so you can hide your files from the all mighty klinoff and his friends.
 
+Out from the box, KlinoffVault comes with klinoff-lang interpreter, a programming language made with klinoff power.
+
 ## Features
 
 - [x] Secure
