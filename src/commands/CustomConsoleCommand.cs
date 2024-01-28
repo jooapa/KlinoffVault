@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Spectre.Console;
 
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class CustomConsoleCommand
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using Spectre.Console;
 
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class Vim
     {

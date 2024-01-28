@@ -2,7 +2,7 @@ using Spectre.Console;
 using System;
 using System.Collections.Generic;
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class Help
     {

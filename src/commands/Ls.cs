@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using Spectre.Console;
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class Ls
     {
@@ -18,7 +18,7 @@ namespace TakedownOS.Commands
             foreach (string file in files)
             {
                 string fileName = Path.GetFileName(file);
-                if (fileName == "takedown.ini") continue;
+                if (fileName == "klinoffvault.ini") continue;
                 AnsiConsole.MarkupLine("[green]" + fileName + "[/]");
             }
             foreach (string folder in folders)

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System;
 using System.Threading;
 
-namespace TakedownOS
+namespace KlinoffVault
 {
     public class Start
     {
@@ -31,7 +31,7 @@ namespace TakedownOS
                 ctx.SpinnerStyle(Style.Parse("blue"));
 
                 // Simulate some work
-                AnsiConsole.MarkupLine("Loading TakedownOS...");
+                AnsiConsole.MarkupLine("Loading KlinoffVault...");
                 Thread.Sleep(1000);
             });
 
@@ -58,7 +58,7 @@ namespace TakedownOS
             {
                 // ASK for password and key and IV
                 string password = AnsiConsole.Prompt(
-                    new TextPrompt<string>("Enter" + args[0] + " password:")
+                    new TextPrompt<string>("Enter: " + args[0] + " password:")
                         .Secret()
                 );
                 byte[] encryptedPassword = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
@@ -113,7 +113,7 @@ namespace TakedownOS
         public static void Run(string[] args)
         {
             Console.Clear();
-            Console.Title = "TakedownOS";
+            Console.Title = "KlinoffVault";
             AnsiConsole.WriteLine("\n");
             Initialize(args);
             Console.Clear();
@@ -121,11 +121,11 @@ namespace TakedownOS
             // Load();
 
             AnsiConsole.Write(
-                new FigletText("TakedownOS")
+                new FigletText("KlinoffVault")
                     .LeftJustified()
                     .Color(Color.SeaGreen1));
             AnsiConsole.MarkupLine("[white]Copyright (C) klinoff-team. All rights reserved.[/]");
-            AnsiConsole.MarkupLine("[white]TakedownOS isolated Operating System[/]\n");
+            AnsiConsole.MarkupLine("[white]KlinoffVault isolated Operating System[/]\n");
 
             // AnsiConsole.MarkupLine("[green]Root path set to " + args[0] + "[/]");
             Loop();

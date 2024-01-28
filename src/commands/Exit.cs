@@ -1,4 +1,4 @@
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class Exit
     {

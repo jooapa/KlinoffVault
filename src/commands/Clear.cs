@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class Clear
     {

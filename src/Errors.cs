@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Spectre.Console;
 
-namespace TakedownOS
+namespace KlinoffVault
 {
     public class Errors
     {

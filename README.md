@@ -1,6 +1,6 @@
-# TakedownOS
+# Klinoff Vault
 
-TakedownOS is a security-focused operating system based on the Linux kernel.
+KlinoffVault is a security-focused operating system based on the Linux kernel.
 Works on Windows, macOS and Linux. Made using .NET 7.0.
 
 Now it might seem that this is just another Operating System, but no.. nononno
@@ -42,6 +42,26 @@ This is a very special peace of software, because it has the ability to open any
 ```bash
 dotnet run -- folder
 dotnet run -- file.tdos
+```
+
+## Building
+
+### Windows
+
+```bash
+dotnet publish -r win10-x64 -c Release /p:PublishSingleFile=true
+```
+
+### macOS
+
+```bash
+dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true
+```
+
+### Linux
+
+```bash
+dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true
 ```
 
 Inside the shell, using hide will encrypt the folder and make it a .tdos file. You can then open it with the shell using `dotnet run -- file.tdos` and entering the password.

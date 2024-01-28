@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using Spectre.Console;
 
-namespace TakedownOS
+namespace KlinoffVault
 {
     public class Folder
     {
@@ -37,7 +37,7 @@ namespace TakedownOS
             foreach (string file in files)
             {
                 string fileName = Path.GetFileName(file);
-                if (fileName == "takedown.ini")
+                if (fileName == "klinoffvault.ini")
                 {
                     return true;
                 }
@@ -62,7 +62,7 @@ namespace TakedownOS
             string encryptedString = Convert.ToBase64String(encrypted);
 
             string iniContent = $"{name}\n{encryptedString}";
-            File.WriteAllText("takedown.ini", iniContent);
+            File.WriteAllText("klinoffvault.ini", iniContent);
 
             return (name, password);
         }
@@ -74,7 +74,7 @@ namespace TakedownOS
             foreach (string file in files)
             {
                 string fileName = Path.GetFileName(file);
-                if (fileName == "takedown.ini")
+                if (fileName == "klinoffvault.ini")
                 {
                     string[] lines = File.ReadAllLines(file);
                     return (lines[0], lines[1]);

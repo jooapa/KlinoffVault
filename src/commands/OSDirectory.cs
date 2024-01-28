@@ -6,7 +6,7 @@ using Spectre.Console;
 using System.IO;
 
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class OSDirectory
     {

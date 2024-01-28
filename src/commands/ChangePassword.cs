@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Spectre.Console;
 
 
-namespace TakedownOS.Commands
+namespace KlinoffVault.Commands
 {
     public class ChangePassword
     {
         public static void ChangeIt()
         {
             Directory.SetCurrentDirectory(Utils.absolutePathToRoot);
-            File.Delete("takedown.ini");
+            File.Delete("klinoffvault.ini");
 
             (string systemName, string password) = Folder.CreateEncryptedIni();
 
