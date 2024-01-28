@@ -41,7 +41,7 @@ This is a very special peace of software, because it has the ability to open any
 
 ```bash
 dotnet run -- folder
-dotnet run -- file.tdos
+dotnet run -- file.kv
 ```
 
 ## Building
@@ -64,7 +64,7 @@ dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true
 dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true
 ```
 
-Inside the shell, using hide will encrypt the folder and make it a .tdos file. You can then open it with the shell using `dotnet run -- file.tdos` and entering the password.
+Inside the shell, using hide will encrypt the folder and make it a .kv file. You can then open it with the shell using `dotnet run -- file.kv` and entering the password.
 
 ## Contributing
 

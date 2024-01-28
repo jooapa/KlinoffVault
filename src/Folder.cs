@@ -45,7 +45,7 @@ namespace KlinoffVault
             return false;
         }
 
-        public static (string, string) CreateEncryptedIni()
+        public static (string, string) SetupCreateEncryptedIni()
         {
             if (CheckIfIniFileExists() == true) return ("", "");
             
@@ -58,13 +58,18 @@ namespace KlinoffVault
                     .Secret()
             );
             
+            return (name, password);
+        }
+
+        public static void CreateEncryptedIni(string name, string password)
+        {
+            if (CheckIfIniFileExists() == true) return;
+            
             byte[] encrypted = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
             string encryptedString = Convert.ToBase64String(encrypted);
 
             string iniContent = $"{name}\n{encryptedString}";
             File.WriteAllText("klinoffvault.ini", iniContent);
-
-            return (name, password);
         }
 
 

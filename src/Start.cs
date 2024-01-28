@@ -56,18 +56,24 @@ namespace KlinoffVault
             // if first arg TDOS file
             if (IsTDOSFile(args[0]))
             {
+                if (CheckIfDirectoryAlreadyExistsInParent(args[0].Replace(".kv", ""))) {
+                    Environment.Exit(1);
+                }
+
                 // ASK for password and key and IV
                 string password = AnsiConsole.Prompt(
                     new TextPrompt<string>("Enter: " + args[0] + " password:")
                         .Secret()
                 );
+
+
                 byte[] encryptedPassword = Crypt.EncryptString(password, Crypt.GetIVandKey(password).Item1, Crypt.GetIVandKey(password).Item2);
                 string encryptedPasswordString = Convert.ToBase64String(encryptedPassword);
 
                 // AnsiConsole.MarkupLine("[green]password: " + encryptedPasswordString + "[/]");
                 // decrypt zip file
                 Commands.Zip.UnzipFolder(encryptedPasswordString, args[0]);
-                Directory.SetCurrentDirectory(args[0].Replace(".tdos", ""));
+                Directory.SetCurrentDirectory(args[0].Replace(".kv", ""));
             }
             // if first arg is folder
             else if (Directory.Exists(args[0]))
@@ -107,8 +113,9 @@ namespace KlinoffVault
             }
 
             // get absolute path
-            Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
-            Folder.CreateEncryptedIni();
+            Utils.absolutePathToRoot = Directory.GetCurrentDirectory();        
+            (string systemName, string systemPassword) = Folder.SetupCreateEncryptedIni();
+            Folder.CreateEncryptedIni(systemName, systemPassword);
         }
         public static void Run(string[] args)
         {
@@ -149,9 +156,21 @@ namespace KlinoffVault
             }
         }
 
+        public static bool CheckIfDirectoryAlreadyExistsInParent(string dir)
+        {
+            string parentPath = Directory.GetCurrentDirectory();
+            string path = Path.Combine(parentPath, dir);
+            if (Directory.Exists(path))
+            {
+                Errors.DirectoryAlreadyExists(dir);
+                return true;
+            }
+            return false;
+        }
+
         public static bool IsTDOSFile(string file)
         {
-            if (file.EndsWith(".tdos") == false)
+            if (file.EndsWith(".kv") == false)
             {
                 return false;
             }

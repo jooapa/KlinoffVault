@@ -19,7 +19,7 @@ namespace KlinoffVault.Commands
             
             ZipFile.CreateFromDirectory(folderPath, zipFilePath);
 
-            string encryptedZipFilePath = Path.Combine(parentFolderPath, systemName + ".tdos");
+            string encryptedZipFilePath = Path.Combine(parentFolderPath, systemName + ".kv");
 
             // AnsiConsole.MarkupLine("[green]Encrypting " + systemName + " with: " + password + "[/]");
             // encrypt zip file
@@ -55,8 +55,8 @@ namespace KlinoffVault.Commands
             foldername = Path.GetFileName(foldername);
             string zipFilePath = Path.Combine(parentFolderPath, foldername);
 
-            string incomingFolderName = Path.Combine(currentPath, foldername.Replace(".tdos", ".zip"));
-            string folderPath = Path.Combine(currentPath, foldername.Replace(".tdos", ""));
+            string incomingFolderName = Path.Combine(currentPath, foldername.Replace(".kv", ".zip"));
+            string folderPath = Path.Combine(currentPath, foldername.Replace(".kv", ""));
 
             // AnsiConsole.MarkupLine("[green]Decrypting " + foldername + " with: " + password + "[/]");
             // decrypt zip file

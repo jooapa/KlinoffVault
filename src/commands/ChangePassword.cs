@@ -13,30 +13,16 @@ namespace KlinoffVault.Commands
         public static void ChangeIt()
         {
             Directory.SetCurrentDirectory(Utils.absolutePathToRoot);
+            (string oldSystemName, string oldPassword) = Folder.GetIniData();
             File.Delete("klinoffvault.ini");
 
-            (string systemName, string password) = Folder.CreateEncryptedIni();
+            (string systemName, string password) = Folder.SetupCreateEncryptedIni();
 
             string parentFolderPath = Directory.GetParent(Utils.absolutePathToRoot).FullName;
             Directory.SetCurrentDirectory(parentFolderPath);
 
-            // rename folder to sysname
-            string folderPath = Utils.absolutePathToRoot;
-            string newFolderPath = Path.Combine(parentFolderPath, systemName);
-
-            if (!Directory.Exists(newFolderPath))
-            {
-                Directory.Move(folderPath, newFolderPath);
-            }
-            else
-            {
-                // Handle the case when the destination directory already exists
-                // You can choose to throw an exception, display an error message, or take any other appropriate action
-                Console.WriteLine("Destination directory already exists.");
-            }
-
             // change directory to new folder
-            Directory.SetCurrentDirectory(newFolderPath);
+            Directory.SetCurrentDirectory(systemName);
             Utils.absolutePathToRoot = Directory.GetCurrentDirectory();
             Utils.isolatedCurrentPath = new string[] { Utils.isolatedRoot };
         }

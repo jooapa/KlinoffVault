@@ -110,7 +110,8 @@ namespace KlinoffVault
                     Commands.Touch.DeleteFile(args[1]);
                     break;
                 case "user":
-                    Folder.CreateEncryptedIni();
+                    (string systemName, string password) = Folder.SetupCreateEncryptedIni();
+                    Folder.CreateEncryptedIni(systemName, password);
                     break;
                 case "change":
                     Commands.ChangePassword.ChangeIt();
