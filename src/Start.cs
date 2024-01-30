@@ -120,7 +120,6 @@ namespace KlinoffVault
         public static void Run(string[] args)
         {
             Console.Title = "KlinoffVault";
-            AnsiConsole.WriteLine("\n");
             Initialize(args);
             Console.Clear();
             // load os
