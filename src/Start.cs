@@ -123,7 +123,7 @@ namespace KlinoffVault
             Initialize(args);
             Console.Clear();
             // load os
-            // Load();
+            Load();
 
             AnsiConsole.Write(
                 new FigletText("KlinoffVault")
