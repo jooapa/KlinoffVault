@@ -119,13 +119,12 @@ namespace KlinoffVault
         }
         public static void Run(string[] args)
         {
-            Console.Clear();
             Console.Title = "KlinoffVault";
             AnsiConsole.WriteLine("\n");
             Initialize(args);
             Console.Clear();
             // load os
-            Load();
+            // Load();
 
             AnsiConsole.Write(
                 new FigletText("KlinoffVault")
@@ -187,7 +186,7 @@ namespace KlinoffVault
             string currentPath = "";
             foreach (string path in Utils.isolatedCurrentPath)
             {
-                currentPath += path + "\\";
+                currentPath += Path.Combine(currentPath, path);
             }
             return currentPath;
         }
@@ -197,7 +196,7 @@ namespace KlinoffVault
             string currentPath = "";
             foreach (string path in Utils.isolatedCurrentPath.Skip(1))
             {
-                currentPath += path + "\\";
+                currentPath += Path.Combine(currentPath, path);
             }
             return currentPath;
         }

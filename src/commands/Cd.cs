@@ -19,15 +19,11 @@ namespace KlinoffVault.Commands
                 }
                 // remove last item from array and set as current path
                 Utils.isolatedCurrentPath = Utils.isolatedCurrentPath.Take(Utils.isolatedCurrentPath.Count() - 1).ToArray();
-                // set current directory to the array but without the first item
-                Environment.CurrentDirectory = Utils.absolutePathToRoot + "\\" + string.Join("\\", Utils.isolatedCurrentPath.Skip(1).ToArray());
+                Environment.CurrentDirectory = Directory.GetParent(Environment.CurrentDirectory).FullName;
                 return;
             }
 
-            if (path == ".")
-            {
-                return;
-            }
+            if (path == ".") return;
 
             if (path == "/" || path == "\\")
             {

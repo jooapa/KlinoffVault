@@ -15,12 +15,13 @@ namespace KlinoffVault.Commands
             if (Start.IfArgumentEmpty(dir)) return;
 
             string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), dir);
+
             if (Directory.Exists(path))
             {
                 Errors.DirectoryAlreadyExists(Path.Combine(Start.GetIsolatedCurrentPath(), dir)); // isolated path
                 return;
             }
-            AnsiConsole.MarkupLine("[green]Created directory " + Path.Combine(Start.GetIsolatedCurrentPath(), dir)+ "[/]");
+            AnsiConsole.MarkupLine("[green]Created directory: " + Path.Combine(Start.GetIsolatedCurrentPath(), dir)+ "[/]");
             Directory.CreateDirectory(path);
         }
 
@@ -43,6 +44,24 @@ namespace KlinoffVault.Commands
                 } else {
                     AnsiConsole.MarkupLine("[red]Error: " + ex.Message + "[/]");
                 }
+            }
+        }
+        public static void RmRf(string dir)
+        {
+            // delete directory recursively
+            if (Start.IfArgumentEmpty(dir)) return;
+
+            string path = Path.Combine(Start.GetFullAbsoluteCurrentPath(), dir);
+            if (Directory.Exists(path) == false)
+            {
+                Errors.DirectoryDoesntExist(Path.Combine(Start.GetIsolatedCurrentPath(), dir)); // isolated path
+                return;
+            }
+            try {
+                Directory.Delete(path, true);
+                AnsiConsole.MarkupLine("[green]Deleted directory " + Path.Combine(Start.GetIsolatedCurrentPath(), dir) + "[/]");
+            } catch (Exception ex) {
+                AnsiConsole.MarkupLine("[red]Error: " + ex.Message + "[/]");
             }
         }
     }
